@@ -1,4 +1,4 @@
-package com.mendessolutions.books.api.exceptions;
+package com.mendessolutions.books.exceptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
