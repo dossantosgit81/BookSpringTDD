@@ -36,7 +36,7 @@ import com.mendessolutions.books.service.BookService;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@WebMvcTest
+@WebMvcTest(controllers = BookController.class)
 @AutoConfigureMockMvc
 public class BookControllerTest {
 	
