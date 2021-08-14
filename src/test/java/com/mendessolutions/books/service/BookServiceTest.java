@@ -1,6 +1,8 @@
 package com.mendessolutions.books.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.List;
@@ -204,6 +206,23 @@ public class BookServiceTest {
 		Assertions.assertThat(result.getContent()).isEqualTo(lista);
 		Assertions.assertThat(result.getPageable().getPageNumber()).isEqualTo(0);
 		Assertions.assertThat(result.getPageable().getPageSize()).isEqualTo(10);
+	}
+	
+	@Test
+	@DisplayName("Deve obter um livro pelo isbn")
+	public void getbookByIsbnTest() {
+		String isbn = "123";
+		Mockito.when(repository.findByIsbn(isbn))
+		.thenReturn(Optional.of(Book.builder().id(1l).isbn(isbn).build()));
+		
+		Optional<Book> book = service.getBookByIsbn(isbn);
+		
+		Assertions.assertThat(book.isPresent()).isTrue();
+		Assertions.assertThat(book.get().getId()).isEqualTo(1l);
+		Assertions.assertThat(book.get().getIsbn()).isEqualTo(isbn);
+	
+		verify(repository, times(1)).findByIsbn(isbn);
+		
 	}
 
 }

@@ -41,7 +41,7 @@ public class BookRepositoryTest {
 		Assertions.assertThat(exists).isTrue();
 	}
 
-	private Book createNewBook(String isbn) {
+	public static Book createNewBook(String isbn) {
 		return Book.builder()
 				.title("Aventuras")
 				.author("Fulano")
