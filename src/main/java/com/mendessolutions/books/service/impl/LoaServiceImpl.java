@@ -1,5 +1,7 @@
 package com.mendessolutions.books.service.impl;
 
+import java.util.Optional;
+
 import com.mendessolutions.books.api.exception.BusinessException;
 import com.mendessolutions.books.model.entity.Loan;
 import com.mendessolutions.books.model.repository.LoanRepository;
@@ -20,6 +22,18 @@ public class LoaServiceImpl implements LoanService {
 		}
 		
 		return repository.save(loan);
+	}
+
+	@Override
+	public Optional<Loan> getById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Loan update(Loan loan) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

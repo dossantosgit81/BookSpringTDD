@@ -1,5 +1,7 @@
 package com.mendessolutions.books.api.resource;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -23,6 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mendessolutions.books.api.dto.LoanDTO;
+import com.mendessolutions.books.api.dto.ReturnedLoanDTO;
 import com.mendessolutions.books.api.exception.BusinessException;
 import com.mendessolutions.books.model.entity.Book;
 import com.mendessolutions.books.model.entity.Loan;
@@ -115,4 +118,26 @@ public class LoanControllerTest {
 					.andExpect(MockMvcResultMatchers.jsonPath("errors[0]").value("Book not found for passed isbn"));
 					
 	}
+	
+	@Test
+	@DisplayName("Deve retornar um livro")
+	public void returnedBookTest() throws Exception{
+		//Cenario returned true
+		Loan loan = Loan.builder().id(1l).build();
+		ReturnedLoanDTO loanDto = ReturnedLoanDTO.builder().returned(true).build();
+		BDDMockito.given(loanService.getById(Mockito.anyLong()))
+		.willReturn(Optional.of(loan));
+		
+		String json = new ObjectMapper().writeValueAsString(loanDto);
+		
+		mvc.perform(
+				patch(LOAN_API.concat("/1"))
+				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json)
+		).andExpect(MockMvcResultMatchers.status().isOk());
+		Mockito.verify(loanService, Mockito.times(1)).update(loan);
+		
+	}
+	
 }
