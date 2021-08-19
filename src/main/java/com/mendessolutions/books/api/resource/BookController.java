@@ -29,8 +29,16 @@ import com.mendessolutions.books.model.entity.Loan;
 import com.mendessolutions.books.service.BookService;
 import com.mendessolutions.books.service.LoanService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/api/books")
+@Api("Book API")
+@Slf4j
 public class BookController {
 	
 	@Autowired
@@ -45,7 +53,12 @@ public class BookController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation("CREATE A BOOK")
+	@ApiResponses({
+		@ApiResponse(code = 201, message = "Book successfully created")
+	})
 	public BookDTO create(@RequestBody @Valid BookDTO dto) {
+		log.info("creating a book for isbn: {}", dto.getIsbn());
 		Book entity = modelMapper.map(dto, Book.class);
 		entity = service.save(entity);
 		
